@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { UserContext, UserContextProvider } from '../UserContext/UserContext'
-
+import { Redirect } from 'react-router-dom'
 
 function SignupForm(props) {
 
-    const { signup } = useContext(UserContext);
+    const { signup, isAuth } = useContext(UserContext);
 
     const [user, setUser] = useState({ type: 'careGiver' })
 
@@ -22,22 +22,25 @@ function SignupForm(props) {
 
 
     return (
-        <form onSubmit={handleSignup}>
-            <input type="email" name="email" value={user.email || ""}
-                onChange={handleChange} placeholder="email" /> <br />
-            <input type="text" name="fullName" value={user.fullName || ""}
-                onChange={handleChange} placeholder="Full Name" /><br />
-            <input type="password" name="password" value={user.password || ""}
-                onChange={handleChange} placeholder="password" /><br />
+        <div>
+            {isAuth ? <Redirect to='/dashboard' /> : null}
+            <form onSubmit={handleSignup}>
+                <input type="email" name="email" value={user.email || ""}
+                    onChange={handleChange} placeholder="email" /> <br />
+                <input type="text" name="fullName" value={user.fullName || ""}
+                    onChange={handleChange} placeholder="Full Name" /><br />
+                <input type="password" name="password" value={user.password || ""}
+                    onChange={handleChange} placeholder="password" /><br />
 
 
-            <select name="type" value={user.type} onChange={handleChange}>
-                <option value="careTaker">careTaker</option>
-                <option value="careGiver">careGiver</option>
-            </select><br />
+                <select name="type" value={user.type} onChange={handleChange}>
+                    <option value="careTaker">careTaker</option>
+                    <option value="careGiver">careGiver</option>
+                </select><br />
 
-            <button type="submit">Signup</button>
-        </form>
+                <button type="submit">Signup</button>
+            </form>
+        </div>
     )
 }
 

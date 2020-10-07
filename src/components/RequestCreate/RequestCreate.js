@@ -74,7 +74,7 @@ const RequestCreate = props => {
 
             /><br />
 
-            <button type="submit">Signup</button>
+            <button type="submit">Post it</button>
         </form>
     )
 }

@@ -17,7 +17,6 @@ const RequestList = props => {
 
 
     const requestList = requestDB.map(item => {
-        console.log(props.match)
         return (
             <li key={item.id} onClick={() => handleReqId(item.id)}>
                 <Link to={`${props.match.path}/${item.id}`} >

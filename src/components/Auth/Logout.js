@@ -10,14 +10,11 @@ const Logout = props => {
         logout();
     }, [])
 
-
     if (isAuth) {
         return <div> loggin out </div>
     } else {
         return <Redirect to="/" />
     }
-
-
 }
 
 export default Logout;

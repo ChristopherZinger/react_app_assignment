@@ -7,7 +7,6 @@ import Logout from './components/Auth/Logout';
 import { UserContextProvider, UserContext } from './components/UserContext/UserContext'
 import RequestList from './components/RequestList/RequestList';
 import { RequestContextProvider } from './components/RequestContext/RequestContext';
-import RequestDetail from './components/RequestDetail/RequestDetail';
 import Dashboard from './components/Dashborad/Dashboard';
 
 function App() {
@@ -29,14 +28,16 @@ export default App;
 
 const Layout = props => {
   const { user, isAuth } = useContext(UserContext);
+  console.log('layout')
   return (
     <div>
       <Navbar />
       <Switch>
-        <Route path='/login' component={LoginForm} />
-        <Route path='/signup' component={SignupForm} />
         <Route path='/logout' component={Logout} />
         <Route path='/dashboard' component={Dashboard} />
+        <Route path='/login' component={LoginForm} />
+        <Route path='/signup' component={SignupForm} />
+        <Route path='' component={Home} />
       </Switch>
     </div>
 
@@ -48,20 +49,30 @@ const Navbar = props => {
   return (
     <div>
       <ul>
-        <Link to='/home' >home</Link><br />
+        <li><Link to='/' >home</Link></li>
         {isAuth ?
           <React.Fragment>
-            <Link to='/logout' >logout</Link>
-            <Link to='/dashboard' >dashboard</Link>
+            <li><Link to='/logout' >logout</Link></li>
+            <li><Link to='/dashboard' >dashboard</Link></li>
           </React.Fragment >
           :
           <React.Fragment>
-            <Link to='/login' >login</Link><br />
-            <Link to='/signup' >signup</Link><br />
+            <li><Link to='/login' >login</Link></li>
+            <li><Link to='/signup' >signup</Link></li>
           </React.Fragment>
         }
       </ul >
     </div >
+  )
+}
+
+const Home = props => {
+  console.log('home')
+  return (
+    <div>
+      home
+      <Route path={props.match.path} component={RequestList} />
+    </div>
   )
 }
 

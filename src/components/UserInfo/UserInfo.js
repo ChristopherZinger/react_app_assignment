@@ -6,7 +6,6 @@ import { UserContext } from '../UserContext/UserContext'
 const UserInfo = props => {
 
     const { user, isAuth } = useContext(UserContext);
-    console.log(isAuth)
     if (isAuth) {
         return (
             <div>
