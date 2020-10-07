@@ -19,7 +19,7 @@ const RequestList = props => {
     const requestList = requestDB.map(item => {
         return (
             <li key={item.id} onClick={() => handleReqId(item.id)}>
-                <Link to={`request-list/` + item.id} >
+                <Link to={`/request-list/` + item.id} >
                     {item.typeOfCare} &nbsp;
                     {item.isActive ? "active" : "not active"}&nbsp;
 
@@ -37,7 +37,7 @@ const RequestList = props => {
             <ul>
                 {requestList}
 
-                <Route to={`${props.match.path}/:id`} component={RequestDetail} />
+                <Route path={`/request-list/:id`} component={RequestDetail} />
             </ul>
         </div>
 

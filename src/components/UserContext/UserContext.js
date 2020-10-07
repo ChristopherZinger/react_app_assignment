@@ -67,7 +67,9 @@ export function UserContextProvider(props) {
         },
         login: ({ email }) => {
             const data = state.userDB.filter(user => user.email === email)[0]
-            dispatch({ type: actionTypes.AUTH_LOGIN, data });
+            if (data) { dispatch({ type: actionTypes.AUTH_LOGIN, data }); }
+            else { console.log('this user doesnt exists') }
+
         },
         logout: () => {
             dispatch({ type: actionTypes.AUTH_LOGOUT });

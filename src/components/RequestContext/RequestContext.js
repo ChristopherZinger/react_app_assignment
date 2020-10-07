@@ -54,6 +54,18 @@ export function RequestContextProvider(props) {
             dispatch({ type: actionTypes.CREATE_REQUEST, data });
         },
 
+        apply: (requestId, userId) => {
+            const data = state.requestDB.map(item => {
+                if (item.id == requestId) {
+                    item.isActive = false;
+                    item.careGiver = userId;
+                }
+                return item;
+            })
+            console.log(data)
+            dispatch({ type: actionTypes.CONSUME_REQUEST, data })
+        }
+
 
 
     }
