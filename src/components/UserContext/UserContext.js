@@ -64,13 +64,10 @@ export function UserContextProvider(props) {
             // api call here
             dispatch({ type: actionTypes.AUTH_SIGNUP, data });
             // dispatch({ type: actionTypes.AUTH_SUCCESS, data });
-
         },
         login: ({ email }) => {
             const data = state.userDB.filter(user => user.email === email)[0]
-            console.log(email)
             dispatch({ type: actionTypes.AUTH_LOGIN, data });
-
         },
         logout: () => {
             dispatch({ type: actionTypes.AUTH_LOGOUT });
