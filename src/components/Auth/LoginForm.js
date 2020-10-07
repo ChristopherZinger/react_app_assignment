@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 function LoginForm(props) {
     const { login, isAuth, errors } = useContext(UserContext);
     const [user, setUser] = useState({ email: '', password: '' })
-    console.log(errors)
+
     function handleChange({ target }) {
         setUser({
             ...user,

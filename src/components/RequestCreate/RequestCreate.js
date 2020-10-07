@@ -2,11 +2,12 @@ import React, { useContext, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { RequestContext, RequestContextProvider } from '../RequestContext/RequestContext';
+import { UserContext } from '../UserContext/UserContext';
 
 
 const RequestCreate = props => {
     const [request, setRequest] = useState({});
-    const [user, setUser] = useState({ type: 'careGiver' })
+    const { user } = useContext(UserContext)
     const { createNewRequest, requestDB } = useContext(RequestContext)
 
     function handleChange({ target }) {
@@ -25,7 +26,7 @@ const RequestCreate = props => {
 
     function handleSignup(e) {
         e.preventDefault();
-        createNewRequest(request)
+        createNewRequest({ user: user.id, ...request })
     }
 
     return (

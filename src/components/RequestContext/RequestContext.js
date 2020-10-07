@@ -63,7 +63,6 @@ export function RequestContextProvider(props) {
                 }
                 return item;
             })
-            console.log(data)
             dispatch({ type: actionTypes.CONSUME_REQUEST, data })
         },
     }

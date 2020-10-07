@@ -11,10 +11,9 @@ const Dashboard = props => {
     const { user, isAuth } = useContext(UserContext);
     const { requestDB } = useContext(RequestContext);
     const userRequestList = requestDB.filter(item => {
-        console.log(item.user, item.careGiver, user.id)
         return item.user === user.id
     }) || {};
-    console.log(userRequestList)
+
     const activeRequestList = requestDB.filter(item => item.isActive) || {};
     const content = user.type === 'careGiver'
         ? <CaregiverDashboard requestList={activeRequestList} />
@@ -45,7 +44,6 @@ const CaretakerDashboard = ({ requestList }) => {
 }
 
 const CaregiverDashboard = ({ requestList }) => {
-    console.log(requestList)
     return (
         <Route component={(p) =>
             <RequestList {...p} requestList={requestList} />} />
