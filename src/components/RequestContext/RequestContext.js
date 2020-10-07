@@ -50,7 +50,8 @@ export function RequestContextProvider(props) {
     const value = {
         requestDB: state.requestDB,
 
-        creatRequest: (data) => {
+        createNewRequest: (data) => {
+            data.id = Math.floor(Math.random() * 10000);
             dispatch({ type: actionTypes.CREATE_REQUEST, data });
         },
 
@@ -64,10 +65,7 @@ export function RequestContextProvider(props) {
             })
             console.log(data)
             dispatch({ type: actionTypes.CONSUME_REQUEST, data })
-        }
-
-
-
+        },
     }
 
     return (

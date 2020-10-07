@@ -4,12 +4,11 @@ import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import SignupForm from './components/Auth/SignupForm';
 import LoginForm from './components/Auth/LoginForm';
 import Logout from './components/Auth/Logout';
-import { UserContextProvider } from './components/UserContext/UserContext'
-import UserInfo from './components/UserInfo/UserInfo'
+import { UserContextProvider, UserContext } from './components/UserContext/UserContext'
 import RequestList from './components/RequestList/RequestList';
-import { RequestContextProvider, RequestContext } from './components/RequestContext/RequestContext';
+import { RequestContextProvider } from './components/RequestContext/RequestContext';
 import RequestDetail from './components/RequestDetail/RequestDetail';
-
+import Dashboard from './components/Dashborad/Dashboard';
 
 function App() {
   return (
@@ -29,15 +28,15 @@ export default App;
 
 
 const Layout = props => {
+  const { user, isAuth } = useContext(UserContext);
   return (
     <div>
       <Navbar />
-      <UserInfo />
       <Switch>
         <Route path='/login' component={LoginForm} />
         <Route path='/signup' component={SignupForm} />
         <Route path='/logout' component={Logout} />
-        <Route path='/request-list' component={RequestList} />
+        <Route path='/dashboard' component={Dashboard} />
       </Switch>
     </div>
 
@@ -45,15 +44,22 @@ const Layout = props => {
 }
 
 const Navbar = props => {
+  const { user, isAuth } = useContext(UserContext);
   return (
     <div>
       <ul>
         <Link to='/home' >home</Link><br />
-        <Link to='/login' >login</Link><br />
-        <Link to='/signup' >signup</Link><br />
-        <Link to='/logout' >logout</Link><br />
-        <Link to='/request-list' >request list</Link><br />
-
+        {isAuth ?
+          <React.Fragment>
+            <Link to='/logout' >logout</Link>
+            <Link to='/dashboard' >dashboard</Link>
+          </React.Fragment >
+          :
+          <React.Fragment>
+            <Link to='/login' >login</Link><br />
+            <Link to='/signup' >signup</Link><br />
+          </React.Fragment>
+        }
       </ul >
     </div >
   )
