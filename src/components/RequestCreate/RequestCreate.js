@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { RequestContext, RequestContextProvider } from '../RequestContext/RequestContext';
@@ -8,11 +8,6 @@ const RequestCreate = props => {
     const [request, setRequest] = useState({});
     const [user, setUser] = useState({ type: 'careGiver' })
     const { createNewRequest, requestDB } = useContext(RequestContext)
-
-    useEffect(() => {
-        console.log('db', requestDB)
-    })
-
 
     function handleChange({ target }) {
         setRequest({
@@ -46,7 +41,7 @@ const RequestCreate = props => {
                 onChange={handleChange}
                 placeholder="Type of care needed." /> <br />
 
-            <label for="start">Starting date</label>
+            <label htmlFor="start">Starting date</label>
             <DatePicker
                 selected={request.start}
                 value={request.start}
@@ -56,7 +51,7 @@ const RequestCreate = props => {
             />
             <br />
 
-            <label for="end">Ending date</label>
+            <label htmlFor="end">Ending date</label>
             <DatePicker
                 selected={request.end}
                 value={request.end}

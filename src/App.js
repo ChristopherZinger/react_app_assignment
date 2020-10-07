@@ -6,7 +6,7 @@ import LoginForm from './components/Auth/LoginForm';
 import Logout from './components/Auth/Logout';
 import { UserContextProvider, UserContext } from './components/UserContext/UserContext'
 import RequestList from './components/RequestList/RequestList';
-import { RequestContextProvider } from './components/RequestContext/RequestContext';
+import { RequestContextProvider, RequestContext } from './components/RequestContext/RequestContext';
 import Dashboard from './components/Dashborad/Dashboard';
 
 function App() {
@@ -67,11 +67,13 @@ const Navbar = props => {
 }
 
 const Home = props => {
-  console.log('home')
+  const { requestDB } = useContext(RequestContext);
+
   return (
     <div>
       home
-      <Route path={props.match.path} component={RequestList} />
+      <Route path={props.match.path} component={() =>
+        <RequestList requestList={requestDB} {...props} />} />
     </div>
   )
 }

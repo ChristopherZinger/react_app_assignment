@@ -3,7 +3,7 @@ import React, { createContext, useReducer } from 'react';
 const requestDB = [
     {
         id: 1112,
-        user: 1320,
+        user: 1370,
         start: new Date(2020, 11, 10, 10, 33, 30, 0),
         end: new Date(2020, 11, 13, 10, 33, 30, 0),
         typeOfCare: 'Nursing',
@@ -13,7 +13,7 @@ const requestDB = [
     },
     {
         id: 1111,
-        user: 1320,
+        user: 1370,
         start: new Date(2020, 12, 5, 10, 33, 30, 0),
         end: new Date(2020, 12, 7, 10, 33, 30, 0),
         typeOfCare: 'Nursing',

@@ -20,13 +20,15 @@ const userDB = [
 const actionTypes = {
     AUTH_LOGIN: 'AUTH_LOGIN',
     AUTH_LOGOUT: 'AUTH_LOGOUT',
-    AUTH_SIGNUP: 'AUTH_SIGNUP'
+    AUTH_SIGNUP: 'AUTH_SIGNUP',
+    AUTH_FAIL: 'AUTH_FAIL'
 }
 
 export const UserContext = createContext();
 const initialState = {
     isAuth: false,
     isLoading: false,
+    errors: {},
     user: {},
     userDB: userDB
 }
@@ -35,17 +37,32 @@ function reducer(state, action) {
 
     switch (action.type) {
         case actionTypes.AUTH_LOGIN:
-            return { ...state, isAuth: true, user: action.data };
+            return { ...state, isAuth: true, user: action.data, errors: {}, };
 
         case actionTypes.AUTH_SIGNUP:
             return {
                 ...state,
                 isAuth: true,
                 user: action.data,
-                userDB: [...state.userDB, action.data]
+                userDB: [...state.userDB, action.data],
+                errors: {},
             };
         case actionTypes.AUTH_LOGOUT:
-            return { ...state, isAuth: false, user: {} };
+            return {
+                ...state,
+                isAuth: false,
+                user: {},
+                errors: {},
+            };
+
+        case actionTypes.AUTH_FAIL: {
+            return {
+                ...state,
+                isAuth: false,
+                user: {},
+                errors: { ...action.errors }
+            }
+        }
     }
 }
 
@@ -65,11 +82,18 @@ export function UserContextProvider(props) {
             dispatch({ type: actionTypes.AUTH_SIGNUP, data });
             // dispatch({ type: actionTypes.AUTH_SUCCESS, data });
         },
-        login: ({ email }) => {
+        login: ({ email, password }) => {
+            const errors = {};
             const data = state.userDB.filter(user => user.email === email)[0]
-            if (data) { dispatch({ type: actionTypes.AUTH_LOGIN, data }); }
-            else { console.log('this user doesnt exists') }
-
+            if (!data) {
+                errors.email = "this email doexn't exist.";
+                return dispatch({ type: actionTypes.AUTH_FAIL, errors });
+            }
+            if (data.password != password) {
+                errors.password = "wrong password";
+                return dispatch({ type: actionTypes.AUTH_FAIL, errors });
+            }
+            return dispatch({ type: actionTypes.AUTH_LOGIN, data });
         },
         logout: () => {
             dispatch({ type: actionTypes.AUTH_LOGOUT });

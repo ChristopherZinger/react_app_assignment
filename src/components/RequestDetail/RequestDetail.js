@@ -5,9 +5,10 @@ import React, { useEffect, useState, useContext } from 'react';
 import { RequestContext } from '../RequestContext/RequestContext';
 import { UserContext } from '../UserContext/UserContext';
 import moment from 'moment';
-
+import { Redirect } from 'react-router-dom'
 
 const RequestDetail = props => {
+    const { isAuth } = useContext(UserContext);
     const { requestDB } = React.useContext(RequestContext);
     const [request, setRequest] = useState({});
 
@@ -21,28 +22,31 @@ const RequestDetail = props => {
         getRequest(props.match.params.id)
     })
 
-
-
     return (
         <div>
+            {!isAuth ? <Redirect to="/login" /> : null}
             <h4>request detail</h4>
             <RequestInfo request={request} />
-            <ApplyBtn requestId={request.id} />
+            <ApplyBtn request={request} />
         </div>
     )
 }
 
-const ApplyBtn = ({ requestId }) => {
-    const { apply } = useContext(RequestContext);
+const ApplyBtn = ({ request }) => {
+    const { apply, requestDB } = useContext(RequestContext);
     const { user } = useContext(UserContext);
 
     function handleApply() {
-        apply(requestId, user.id)
+        apply(request.id, user.id)
+    }
+    if (request.user !== user.id) {
+        return (
+            <button onClick={handleApply}> apply </button>
+        )
+    } else {
+        return null
     }
 
-    return (
-        <button onClick={handleApply}> apply </button>
-    )
 }
 
 

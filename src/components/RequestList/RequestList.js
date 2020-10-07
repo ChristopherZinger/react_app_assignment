@@ -4,34 +4,25 @@ import { Link } from 'react-router-dom'
 import moment from 'moment';
 import { Switch, Route, useParams } from 'react-router-dom';
 import RequestDetail from '../RequestDetail/RequestDetail';
-
+import { UserContext } from '../UserContext/UserContext'
 
 
 const RequestList = props => {
-    const { requestDB } = useContext(RequestContext);
-    const [reqId, setReqId] = useState(null)
+    const { isAuth } = useContext(UserContext)
 
-    function handleReqId(id) {
-        setReqId(id)
-    }
-
-
-    const requestList = requestDB.map(item => {
+    const requestList = props.requestList.map(item => {
         return (
-            <li key={item.id} onClick={() => handleReqId(item.id)}>
-                <Link to={`${props.match.path}/${item.id}`} >
-                    {item.typeOfCare} &nbsp;
-                    {item.isActive ? "active" : "not active"}&nbsp;
-
-                    from: &nbsp; {moment(item.start).format('DD MMMM YYYY')} &nbsp;
-                    to: &nbsp; {moment(item.end).format('DD MMMM YYYY')}
-                </Link>
+            <li key={item.id} >
+                < RequestItem item={item} />
+                {  isAuth ?
+                    <Link to={`${props.match.path}/${item.id}`} >
+                        view
+                        </Link> : null}
             </li>
         )
     })
 
     return (
-
         <div>
             <h4>Request List</h4>
             <ul>
@@ -39,7 +30,17 @@ const RequestList = props => {
                 <Route path={`${props.match.path}/:id`} component={RequestDetail} />
             </ul>
         </div>
+    )
+}
 
+const RequestItem = ({ item }) => {
+    return (
+        <React.Fragment>
+            {item.typeOfCare} &nbsp;
+            {item.isActive ? "active" : "not active"}&nbsp;
+            from: &nbsp; {moment(item.start).format('DD MMMM YYYY')} &nbsp;
+            to: &nbsp; {moment(item.end).format('DD MMMM YYYY')}
+        </React.Fragment>
     )
 }
 
