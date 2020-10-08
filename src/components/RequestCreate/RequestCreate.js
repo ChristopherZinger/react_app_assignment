@@ -27,7 +27,11 @@ const RequestCreate = props => {
 
     function handleSignup(e) {
         e.preventDefault();
-        createNewRequest({ user: user.id, ...request })
+        createNewRequest({
+            user: user.id,
+            isActive: true,
+            ...request
+        })
         props.history.push('/dashboard')
     }
 
