@@ -34,7 +34,7 @@ const Layout = props => {
   return (
     <React.Fragment>
       <Navbar />
-      <div className="">
+      <div className="container">
         <Switch>
           <Route path='/logout' component={Logout} />
           <Route path='/dashboard' component={Dashboard} />
@@ -53,7 +53,7 @@ const Home = props => {
   const { requestDB } = useContext(RequestContext);
 
   return (
-    <div className="container">
+    <div>
       <div className="row">
         <div className="col">
           <Hello />

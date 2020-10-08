@@ -1,0 +1,7 @@
+.center{
+    position: relative;
+    display: block;
+    left: 50%;
+    top: 60px;
+    transform: translate(-50%);
+}
