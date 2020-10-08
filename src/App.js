@@ -8,6 +8,8 @@ import { UserContextProvider, UserContext } from './components/UserContext/UserC
 import RequestList from './components/RequestList/RequestList';
 import { RequestContextProvider, RequestContext } from './components/RequestContext/RequestContext';
 import Dashboard from './components/Dashborad/Dashboard';
+import Navbar from './components/Navbar/Navbar';
+
 
 function App() {
   return (
@@ -44,27 +46,6 @@ const Layout = props => {
   )
 }
 
-const Navbar = props => {
-  const { user, isAuth } = useContext(UserContext);
-  return (
-    <div>
-      <ul>
-        <li><Link to='/' >home</Link></li>
-        {isAuth ?
-          <React.Fragment>
-            <li><Link to='/logout' >logout</Link></li>
-            <li><Link to='/dashboard' >dashboard</Link></li>
-          </React.Fragment >
-          :
-          <React.Fragment>
-            <li><Link to='/login' >login</Link></li>
-            <li><Link to='/signup' >signup</Link></li>
-          </React.Fragment>
-        }
-      </ul >
-    </div >
-  )
-}
 
 const Home = props => {
   const { requestDB } = useContext(RequestContext);
