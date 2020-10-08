@@ -32,16 +32,18 @@ const Layout = props => {
   const { user, isAuth } = useContext(UserContext);
   console.log('layout')
   return (
-    <div>
+    <React.Fragment>
       <Navbar />
-      <Switch>
-        <Route path='/logout' component={Logout} />
-        <Route path='/dashboard' component={Dashboard} />
-        <Route path='/login' component={LoginForm} />
-        <Route path='/signup' component={SignupForm} />
-        <Route path='' component={Home} />
-      </Switch>
-    </div>
+      <div className="">
+        <Switch>
+          <Route path='/logout' component={Logout} />
+          <Route path='/dashboard' component={Dashboard} />
+          <Route path='/login' component={LoginForm} />
+          <Route path='/signup' component={SignupForm} />
+          <Route path='' component={Home} />
+        </Switch>
+      </div>
+    </React.Fragment>
 
   )
 }
@@ -51,10 +53,32 @@ const Home = props => {
   const { requestDB } = useContext(RequestContext);
 
   return (
-    <div>
-      home
-      <Route path={props.match.path} component={() =>
-        <RequestList requestList={requestDB} {...props} />} />
+    <div className="row">
+      <div className="col">
+        <Hello />
+      </div>
+      <div className="col">
+        <Route path={props.match.path} component={() =>
+          <RequestList requestList={requestDB} {...props} />} /></div>
+    </div>
+  )
+}
+
+const Hello = () => {
+  return (
+    <div className="jumbotron">
+      <h1 className="display-3">Hello!</h1>
+      <p className="lead">Welcome to 'takecare.com', Here you will find a health care you need as well as patients you are looking for.</p>
+      <hr className="my-4" />
+      <p>Choose from thousands of offers posted by our users. </p>
+      <p className="lead">
+
+        <Link to='/signup' className="btn btn-secondary btn-lg"
+          role="button" >Signup</Link>
+          &nbsp; or &nbsp;
+        <Link to='/login' className="btn btn-primary btn-lg"
+          role="button"  >login</Link>
+      </p>
     </div>
   )
 }
