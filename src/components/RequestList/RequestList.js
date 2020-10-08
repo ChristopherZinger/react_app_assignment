@@ -7,11 +7,9 @@ import { UserContext } from '../UserContext/UserContext'
 const RequestList = props => {
     const { user, isAuth } = useContext(UserContext)
 
-    const requestList = props.requestList.map(item => {
-        return (
-            < RequestItem item={item} match={props.match} />
-        )
-    })
+    const requestList = props.requestList.map(item =>
+        < RequestItem key={item.id} item={item} match={props.match} />
+    )
 
     return (
         <table class="table table-hover">
@@ -40,7 +38,7 @@ const RequestItem = props => {
     const item = props.item;
 
     return (
-        <tr key={item.id}>
+        <tr >
             <th scope="row">{item.typeOfCare}</th>
             <td>{moment(item.start).format('DD MMMM')}</td>
             <td>{moment(item.end).format('DD MMMM')}</td>

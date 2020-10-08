@@ -4,8 +4,10 @@ import UserInfo from '../UserInfo/UserInfo';
 import { UserContext } from '../UserContext/UserContext';
 import { Route, Redirect, Link } from 'react-router-dom';
 import RequestCreate from '../RequestCreate/RequestCreate';
-import { RequestContext, RequestContextProvider } from '../RequestContext/RequestContext';
+import { RequestContext } from '../RequestContext/RequestContext';
 import RequestDetail from '../RequestDetail/RequestDetail';
+import TitleWrapper from '../TitleWrapper/TitleWrapper';
+
 
 const Dashboard = props => {
     const { user, isAuth } = useContext(UserContext);
@@ -22,10 +24,39 @@ const Dashboard = props => {
     )
 }
 
+const CaretakerRequestListOfLists = props => {
+    const { requestDB } = useContext(RequestContext);
+    const { user } = useContext(UserContext);
+
+    const activeRequestList = requestDB.filter(item => {
+        return (item.user === user.id && item.isActive)
+    });
+    const pendingRequestList = requestDB.filter(item => {
+        return (item.user === user.id && !item.isActive)
+    });
+
+    return (
+        <div>
+            <TitleWrapper title="Your Active requests" description="list of all your active requests.">
+                <RequestList requestList={activeRequestList} />
+            </TitleWrapper>
+
+            {pendingRequestList.length > 0 ?
+                <TitleWrapper title="Appointments" description="list of all your appointments.">
+                    <RequestList requestList={pendingRequestList} />
+                </TitleWrapper>
+                : null
+            }
+
+        </div>
+    )
+}
+
 // patient dashboard
 const CaretakerDashboard = props => {
     const { requestDB } = useContext(RequestContext);
     const { user } = useContext(UserContext);
+
     const requestList = requestDB.filter(item => {
         return item.user === user.id
     }) || {};
@@ -37,14 +68,8 @@ const CaretakerDashboard = props => {
             <br />
             <Route path={`${props.match.path}/create-request`} component={RequestCreate} />
             <br />
-            <Route path={props.match.path} exact component={(p) => {
-                return (
-                    <React.Fragment >
-                        <h4>Your requests:</h4>
-                        <RequestList {...p} requestList={requestList} />
-                    </React.Fragment>
-                )
-            }
+            <Route path={props.match.path} exact component={(p) =>
+                <CaretakerRequestListOfLists {...p} />
             }
             />
         </React.Fragment>
@@ -54,18 +79,32 @@ const CaretakerDashboard = props => {
 // care provider dashboard
 const CaregiverDashboard = props => {
     const { requestDB } = useContext(RequestContext);
-    const requestList = requestDB.filter(item => item.isActive) || {};
+    const { user } = useContext(UserContext);
+
+    const requestList = requestDB.filter(item => item.isActive) || [];
+    const yourAppointments = requestDB.filter(item => item.careGiver == user.id) || [];
 
     return (
         <div>
-            <br />
-            <hr />
-            <h4>Find new requests</h4>
-            <Route component={(p) =>
-                <RequestList {...p} requestList={requestList} />} />
-            <hr />
-            <br />
-            <Route path={`${props.match.path}/:id`} component={RequestDetail} />
+            {/* Your appointments */}
+            { yourAppointments.length > 0 ?
+                <TitleWrapper title="Your Appointments" description="list with your appointments.">
+                    <Route component={(p) =>
+                        <RequestList {...p} requestList={yourAppointments} />} />
+                </TitleWrapper>
+                : null
+            }
+
+            {/* All appointments */}
+            <TitleWrapper title="Find new requests" description="list with all available requests.">
+                <Route component={(p) =>
+                    <RequestList {...p} requestList={requestList} />} />
+            </TitleWrapper>
+
+            {/* details about appointment */}
+            <TitleWrapper title="Info" description="">
+                <Route path={`${props.match.path}/:id`} component={RequestDetail} />
+            </TitleWrapper>
         </div>
 
     )

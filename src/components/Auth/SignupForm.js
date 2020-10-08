@@ -51,7 +51,7 @@ function SignupForm(props) {
                     <select name="type" value={user.type}
                         onChange={handleChange}
                         className="form-control">
-                        <option value="careTaker">Care Taker</option>
+                        <option value="careTaker">Patient</option>
                         <option value="careGiver">Care Provider</option>
                     </select><br />
 
