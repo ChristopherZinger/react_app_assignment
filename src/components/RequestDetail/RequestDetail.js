@@ -22,12 +22,14 @@ const RequestDetail = props => {
         getRequest(props.match.params.id)
     })
 
+
     return (
         <div>
             {!isAuth ? <Redirect to="/login" /> : null}
-            <h4>request detail</h4>
-            <RequestInfo request={request} />
-            <ApplyBtn request={request} />
+            {request.isActive
+                ? <RequestInfo request={request} applyBtn={<ApplyBtn request={request} />} />
+                : null
+            }
         </div>
     )
 }
@@ -41,7 +43,7 @@ const ApplyBtn = ({ request }) => {
     }
     if (request.user !== user.id) {
         return (
-            <button onClick={handleApply}> apply </button>
+            <button className='btn btn-secondary' onClick={handleApply}> apply </button>
         )
     } else {
         return null
@@ -50,30 +52,29 @@ const ApplyBtn = ({ request }) => {
 }
 
 
-const RequestInfo = ({ request }) => {
+const RequestInfo = ({ request, ...props }) => {
     return (
-        <ul>
-            <li >
-                <div>Type of Care :</div>
-                <div>{request.typeOfCare}</div>
-            </li>
-            <li >
-                <div>Start Date :</div>
-                <div>{moment(request.start).format('DD MMMM YYYY')}</div>
-            </li>
-            <li >
-                <div>End Date:</div>
-                <div>{moment(request.end).format('DD MMMM YYYY')}</div>
-            </li>
-            <li >
-                <div>Description:</div>
-                <div>{request.description}</div>
-            </li>
-            <li >
-                <div>Status :</div>
-                <div>{request.isActive ? "active" : "taken"}</div>
-            </li>
-        </ul>
+
+        <div className="card bg-light mb-3" style={{ maxWidth: '30rem' }}>
+            <div className="card-header">{request.isActive ? "active" : "taken"}</div>
+            <div className="card-body">
+                <h4 className="card-title">Patient is looking for a {request.typeOfCare}</h4>
+                <p className="card-text">{request.description}</p>
+                <hr />
+                <div>
+                    <div className='row'>
+                        <div className='col-9'>
+                            {moment(request.start).format('DD MMMM YYYY')} <br />
+                            {moment(request.end).format('DD MMMM YYYY')}
+                        </div>
+                        <div className='col-3'>
+                            {props.applyBtn}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div >
     )
 }
 

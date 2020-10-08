@@ -1,26 +1,21 @@
 
 import React, { useContext } from 'react';
+import { useRouteMatch } from 'react-router';
 import { UserContext } from '../UserContext/UserContext'
 
-
 const UserInfo = props => {
-
     const { user, isAuth } = useContext(UserContext);
     if (isAuth) {
         return (
             <div>
-                <h4>User Info</h4>
-                <ul>
-                    <li> {user.fullName} </li>
-                    <li> {user.email} </li>
-                    <li> {user.type} </li>
-                </ul>
+                <br /> <br />
+                <p class="lead">Hello {user.fullName}. You are registered as a {user.type === 'careTaker' ? 'care taker' : "care provider"}</p>
+                <hr />
             </div>
         )
     } else {
         return null;
     }
-
 }
 
 export default UserInfo;

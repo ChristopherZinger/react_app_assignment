@@ -1,9 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { RequestContext } from '../RequestContext/RequestContext';
 import { Link } from 'react-router-dom'
 import moment from 'moment';
-import { Switch, Route, useParams } from 'react-router-dom';
-import RequestDetail from '../RequestDetail/RequestDetail';
 import { UserContext } from '../UserContext/UserContext'
 
 
@@ -24,14 +21,14 @@ const RequestList = props => {
                     <th scope="col">start</th>
                     <th scope="col">end</th>
                     <th scope="col">status</th>
+                    {isAuth
+                        ? <th scope="col">link</th>
+                        : null
+                    }
                 </tr>
             </thead>
             <tbody>
-
-
                 {requestList}
-
-
             </tbody>
         </table>
     )
@@ -39,7 +36,9 @@ const RequestList = props => {
 
 /* <Route path={`${props.match.path}/:id`} component={RequestDetail} /> */
 
-const RequestItem = ({ item }, ...props) => {
+const RequestItem = props => {
+    const item = props.item;
+    console.log('is auth in rq items   ', props.isAuth)
     return (
         <tr key={item.id}>
             <th scope="row">{item.typeOfCare}</th>

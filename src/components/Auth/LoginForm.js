@@ -39,7 +39,7 @@ function LoginForm(props) {
                         className="form-control" />
                     <p>{errors ? errors.password : null}</p>
 
-                    <button type="submit" className="btn btn-primary">Signup</button>
+                    <button type="submit" className="btn btn-primary">Login</button>
                 </form>
             </div>
 
