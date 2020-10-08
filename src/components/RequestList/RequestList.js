@@ -12,36 +12,74 @@ const RequestList = props => {
 
     const requestList = props.requestList.map(item => {
         return (
-            <li key={item.id} >
-                < RequestItem item={item} />
-                {  isAuth ?
-                    <Link to={`${props.match.path}/${item.id}`} >
-                        view
-                        </Link> : null}
-            </li>
+            < RequestItem item={item} match={props.match} isAuth={isAuth} />
         )
     })
 
     return (
-        <div>
-            <h4>Request List</h4>
-            <ul>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Type</th>
+                    <th scope="col">start</th>
+                    <th scope="col">end</th>
+                    <th scope="col">status</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
                 {requestList}
-                <Route path={`${props.match.path}/:id`} component={RequestDetail} />
-            </ul>
-        </div>
+
+
+            </tbody>
+        </table>
     )
 }
 
-const RequestItem = ({ item }) => {
+/* <Route path={`${props.match.path}/:id`} component={RequestDetail} /> */
+
+const RequestItem = ({ item }, ...props) => {
     return (
-        <React.Fragment>
-            {item.typeOfCare} &nbsp;
-            {item.isActive ? "active" : "not active"}&nbsp;
-            from: &nbsp; {moment(item.start).format('DD MMMM YYYY')} &nbsp;
-            to: &nbsp; {moment(item.end).format('DD MMMM YYYY')}
-        </React.Fragment>
+        <tr key={item.id}>
+            <th scope="row">{item.typeOfCare}</th>
+            <td>{moment(item.start).format('DD MMMM')}</td>
+            <td>{moment(item.end).format('DD MMMM')}</td>
+            <td>{item.isActive ? 'active' : 'reserved'}</td>
+
+            {  props.isAuth ?
+                <td>
+                    <Link to={`${props.match.path}/${item.id}`} >
+                        view details
+                    </Link> </td>
+                : null}
+        </tr>
     )
 }
 
 export default RequestList;
+
+
+
+
+
+// <table class="table table-hover">
+//     <thead>
+//         <tr>
+//             <th scope="col">Type</th>
+//             <th scope="col">Column heading</th>
+//             <th scope="col">Column heading</th>
+//             <th scope="col">Column heading</th>
+//         </tr>
+//     </thead>
+//     <tbody>
+
+//         <tr>
+//             <th scope="row">Default</th>
+//             <td>Column content</td>
+//             <td>Column content</td>
+//             <td>Column content</td>
+//         </tr>
+
+//     </tbody>
+// </table> 

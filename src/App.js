@@ -53,14 +53,26 @@ const Home = props => {
   const { requestDB } = useContext(RequestContext);
 
   return (
-    <div className="row">
-      <div className="col">
-        <Hello />
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <Hello />
+        </div>
       </div>
-      <div className="col">
-        <Route path={props.match.path} component={() =>
-          <RequestList requestList={requestDB} {...props} />} /></div>
-    </div>
+
+      <div className="row">
+        <div className="col">
+          <h4>Latest Requests:</h4>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col">
+          <Route path={props.match.path} component={() =>
+            <RequestList requestList={requestDB} {...props} />} />
+        </div>
+      </div>
+    </div >
   )
 }
 
