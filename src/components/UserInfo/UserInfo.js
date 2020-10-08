@@ -9,7 +9,7 @@ const UserInfo = props => {
         return (
             <div>
                 <br /> <br />
-                <p class="lead">Hello {user.fullName}. You are registered as a {user.type === 'careTaker' ? 'care taker' : "care provider"}</p>
+                <p class="lead">Hello {user.fullName}. You are registered as a {user.type === 'careTaker' ? 'patient' : "care provider"}</p>
                 <hr />
             </div>
         )

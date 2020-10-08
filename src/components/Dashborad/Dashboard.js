@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import RequestList from '../RequestList/RequestList';
 import UserInfo from '../UserInfo/UserInfo';
 import { UserContext } from '../UserContext/UserContext';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, Link } from 'react-router-dom';
 import RequestCreate from '../RequestCreate/RequestCreate';
-import { RequestContext } from '../RequestContext/RequestContext';
+import { RequestContext, RequestContextProvider } from '../RequestContext/RequestContext';
 import RequestDetail from '../RequestDetail/RequestDetail';
 
 const Dashboard = props => {
@@ -14,31 +14,40 @@ const Dashboard = props => {
         return item.user === user.id
     }) || {};
 
-    console.log(props.match)
-
     const activeRequestList = requestDB.filter(item => item.isActive) || {};
     const content = user.type === 'careGiver'
         ? <CaregiverDashboard requestList={activeRequestList} match={props.match} />
-        : <CaretakerDashboard requestList={userRequestList} />;
+        : <CaretakerDashboard requestList={userRequestList} match={props.match} />;
 
     return (
         <div>
+            {!isAuth ? <Redirect to='/' /> : null}
             <UserInfo />
-            {isAuth
-                ? content
-                : <Redirect to='/' />
-            }
+            {content}
         </div >
     )
 }
 
 
-const CaretakerDashboard = ({ requestList }) => {
+const CaretakerDashboard = ({ requestList, ...props }) => {
     return (
         <React.Fragment>
-            <Route component={RequestCreate} />
-            <Route component={(p) =>
-                <RequestList {...p} requestList={requestList} />} />
+            <Link to={`${props.match.path}/create-request`}
+                className="btn btn-primary">Create new Request
+             </Link>
+            <br />
+            <Route path={`${props.match.path}/create-request`} component={RequestCreate} />
+            <br />
+            <Route path={props.match.path} exact component={(p) => {
+                return (
+                    <React.Fragment >
+                        <h4>Your requests:</h4>
+                        <RequestList {...p} requestList={requestList} />
+                    </React.Fragment>
+                )
+            }
+            }
+            />
         </React.Fragment>
     )
 }

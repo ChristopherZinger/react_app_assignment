@@ -30,7 +30,6 @@ export default App;
 
 const Layout = props => {
   const { user, isAuth } = useContext(UserContext);
-  console.log('layout')
   return (
     <React.Fragment>
       <Navbar />

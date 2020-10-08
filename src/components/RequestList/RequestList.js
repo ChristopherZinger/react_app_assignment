@@ -5,11 +5,11 @@ import { UserContext } from '../UserContext/UserContext'
 
 
 const RequestList = props => {
-    const { isAuth } = useContext(UserContext)
+    const { user, isAuth } = useContext(UserContext)
 
     const requestList = props.requestList.map(item => {
         return (
-            < RequestItem item={item} match={props.match} isAuth={isAuth} />
+            < RequestItem item={item} match={props.match} />
         )
     })
 
@@ -21,7 +21,7 @@ const RequestList = props => {
                     <th scope="col">start</th>
                     <th scope="col">end</th>
                     <th scope="col">status</th>
-                    {isAuth
+                    {(isAuth && user.type === "careGiver")
                         ? <th scope="col">link</th>
                         : null
                     }
@@ -34,11 +34,11 @@ const RequestList = props => {
     )
 }
 
-/* <Route path={`${props.match.path}/:id`} component={RequestDetail} /> */
 
 const RequestItem = props => {
+    const { user, isAuth } = useContext(UserContext)
     const item = props.item;
-    console.log('is auth in rq items   ', props.isAuth)
+
     return (
         <tr key={item.id}>
             <th scope="row">{item.typeOfCare}</th>
@@ -46,7 +46,7 @@ const RequestItem = props => {
             <td>{moment(item.end).format('DD MMMM')}</td>
             <td>{item.isActive ? 'active' : 'reserved'}</td>
 
-            {  props.isAuth ?
+            { (isAuth && user.type === "careGiver") ?
                 <td>
                     <Link to={`${props.match.path}/${item.id}`} >
                         view details
@@ -57,28 +57,3 @@ const RequestItem = props => {
 }
 
 export default RequestList;
-
-
-
-
-
-// <table class="table table-hover">
-//     <thead>
-//         <tr>
-//             <th scope="col">Type</th>
-//             <th scope="col">Column heading</th>
-//             <th scope="col">Column heading</th>
-//             <th scope="col">Column heading</th>
-//         </tr>
-//     </thead>
-//     <tbody>
-
-//         <tr>
-//             <th scope="row">Default</th>
-//             <td>Column content</td>
-//             <td>Column content</td>
-//             <td>Column content</td>
-//         </tr>
-
-//     </tbody>
-// </table> 

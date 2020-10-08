@@ -1,6 +1,3 @@
-
-
-
 import React, { useEffect, useState, useContext } from 'react';
 import { RequestContext } from '../RequestContext/RequestContext';
 import { UserContext } from '../UserContext/UserContext';
